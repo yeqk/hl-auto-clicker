@@ -74,11 +74,6 @@ class AutoClickerApp(ctk.CTk):
         ctrl_frame.pack(fill="x", padx=20, pady=10)
         ctrl_frame.grid_columnconfigure((0, 1, 2, 3), weight=1)
 
-        # Labels for keyboard bindings
-        ctk.CTkLabel(ctrl_frame, text="F6", font=ctk.CTkFont(size=10, weight="bold"), text_color="gray").grid(row=0, column=0, pady=(5,0))
-        ctk.CTkLabel(ctrl_frame, text="F7", font=ctk.CTkFont(size=10, weight="bold"), text_color="gray").grid(row=0, column=1, pady=(5,0))
-        ctk.CTkLabel(ctrl_frame, text="F8", font=ctk.CTkFont(size=10, weight="bold"), text_color="gray").grid(row=0, column=2, pady=(5,0))
-
         # Action buttons
         self.record_btn = ctk.CTkButton(
             ctrl_frame, 
@@ -89,7 +84,7 @@ class AutoClickerApp(ctk.CTk):
             font=ctk.CTkFont(weight="bold"),
             command=self.toggle_recording
         )
-        self.record_btn.grid(row=1, column=0, padx=8, pady=(0, 10), sticky="ew")
+        self.record_btn.grid(row=0, column=0, padx=8, pady=10, sticky="ew")
 
         self.play_btn = ctk.CTkButton(
             ctrl_frame, 
@@ -100,18 +95,7 @@ class AutoClickerApp(ctk.CTk):
             font=ctk.CTkFont(weight="bold"),
             command=self.toggle_playback
         )
-        self.play_btn.grid(row=1, column=1, padx=8, pady=(0, 10), sticky="ew")
-
-        self.stop_btn = ctk.CTkButton(
-            ctrl_frame, 
-            text="■ Stop", 
-            fg_color="#e74c3c", 
-            hover_color="#c0392b",
-            text_color="white",
-            font=ctk.CTkFont(weight="bold"),
-            command=self.stop_all
-        )
-        self.stop_btn.grid(row=1, column=2, padx=8, pady=(0, 10), sticky="ew")
+        self.play_btn.grid(row=0, column=1, padx=8, pady=10, sticky="ew")
 
         self.clear_btn = ctk.CTkButton(
             ctrl_frame, 
@@ -121,7 +105,7 @@ class AutoClickerApp(ctk.CTk):
             text_color="white",
             command=self.clear_sequence
         )
-        self.clear_btn.grid(row=1, column=3, padx=8, pady=(0, 10), sticky="ew")
+        self.clear_btn.grid(row=0, column=2, padx=8, pady=10, sticky="ew")
 
         # ---------------- Real-time Event Feed ----------------
         list_frame = ctk.CTkFrame(self, corner_radius=12)
