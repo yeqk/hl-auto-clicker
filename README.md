@@ -1,10 +1,6 @@
 # 🎯 HL Auto Clicker
 
 A modern desktop auto-clicker utility designed to record sequences of mouse clicks and replay them in an infinite loop. It simulates human-like clicking behavior with timing variance, position jitter, and micro-pauses to make automation look organic.
-
-> [!CAUTION]
-> **Anti-Cheat Warning**: Some games, including *Task Bar Hero*, have active auto-clicker detection. Utilizing automation tools may result in permanent bans, Steam marketplace restrictions, or inventory locks. Please use responsibly and at your own discretion.
-
 ## 🚀 Features
 
 - **Record Mouse Clicks**: Records clicks globally across your entire desktop, maintaining spatial coordinates, precise delays between clicks, and the exact click behavior (press and release sequences).
@@ -59,3 +55,10 @@ A modern desktop auto-clicker utility designed to record sequences of mouse clic
    - *Micro-pause*: 2% is a solid sweet spot.
 6. Press **F7** (or click **Play Loop**) to run. Keep your hands off the mouse.
 7. To abort loop playback immediately, move your cursor manually to the **far top-left corner of the screen** (0,0 coordinate) or press **F8**.
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](file:///c:/Users/yqkx/Documents/Projects/hl-auto-clicker/LICENSE) file for details.
+
