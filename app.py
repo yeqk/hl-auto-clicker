@@ -72,7 +72,7 @@ class AutoClickerApp(ctk.CTk):
         # ---------------- Quick Control Panel ----------------
         ctrl_frame = ctk.CTkFrame(self, corner_radius=12)
         ctrl_frame.pack(fill="x", padx=20, pady=10)
-        ctrl_frame.grid_columnconfigure((0, 1, 2, 3), weight=1)
+        ctrl_frame.grid_columnconfigure((0, 1, 2), weight=1)
 
         # Action buttons
         self.record_btn = ctk.CTkButton(
