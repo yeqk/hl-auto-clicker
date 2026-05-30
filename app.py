@@ -158,10 +158,39 @@ class AutoClickerApp(ctk.CTk):
             text="Human-like Randomness Controls", 
             font=ctk.CTkFont(size=14, weight="bold")
         )
-        settings_title.grid(row=0, column=0, columnspan=3, padx=15, pady=(10, 5), sticky="w")
+        settings_title.grid(row=0, column=0, padx=15, pady=(10, 5), sticky="w")
+
+        # Info/Help button
+        self.info_btn = ctk.CTkButton(
+            settings_frame,
+            text="ℹ",
+            width=24,
+            height=24,
+            corner_radius=12,
+            fg_color="transparent",
+            hover_color="#34495e",
+            text_color="#3498db",
+            font=ctk.CTkFont(size=14, weight="bold"),
+            command=self.show_sliders_help
+        )
+        self.info_btn.grid(row=0, column=1, padx=0, pady=(10, 5), sticky="w")
+
+        self.reset_defaults_btn = ctk.CTkButton(
+            settings_frame, 
+            text="Reset Defaults", 
+            width=100, 
+            height=22, 
+            fg_color="#34495e", 
+            hover_color="#2c3e50", 
+            text_color="white",
+            font=ctk.CTkFont(size=11, weight="bold"),
+            command=self.reset_settings_defaults
+        )
+        self.reset_defaults_btn.grid(row=0, column=2, padx=15, pady=(10, 5), sticky="e")
 
         # 1. Timing variance slider
         ctk.CTkLabel(settings_frame, text="Timing Variance:", font=ctk.CTkFont(size=12)).grid(row=1, column=0, padx=15, pady=5, sticky="w")
+        
         self.timing_slider = ctk.CTkSlider(
             settings_frame, 
             from_=0.0, 
@@ -176,6 +205,7 @@ class AutoClickerApp(ctk.CTk):
 
         # 2. Position jitter slider
         ctk.CTkLabel(settings_frame, text="Position Jitter:", font=ctk.CTkFont(size=12)).grid(row=2, column=0, padx=15, pady=5, sticky="w")
+        
         self.jitter_slider = ctk.CTkSlider(
             settings_frame, 
             from_=0, 
@@ -190,6 +220,7 @@ class AutoClickerApp(ctk.CTk):
 
         # 3. Micro-pause chance slider
         ctk.CTkLabel(settings_frame, text="Micro-pause Chance:", font=ctk.CTkFont(size=12)).grid(row=3, column=0, padx=15, pady=5, sticky="w")
+        
         self.pause_slider = ctk.CTkSlider(
             settings_frame, 
             from_=0.0, 
@@ -306,6 +337,82 @@ class AutoClickerApp(ctk.CTk):
             self.loop_delay_slider.set(val)
             self.player.loop_delay = val * 60.0
             self.loop_delay_lbl.configure(text="1.0m")
+
+    def reset_settings_defaults(self):
+        # 1. Reset values in logic engines
+        self.humanizer.timing_variance = 0.15
+        self.humanizer.position_jitter = 3
+        self.humanizer.pause_chance = 0.02
+        self.player.loop_delay = 2.0
+
+        # 2. Reset slider values
+        self.timing_slider.set(0.15)
+        self.jitter_slider.set(3)
+        self.pause_slider.set(0.02)
+        self.loop_delay_slider.configure(from_=2.0, to=60.0, number_of_steps=58)
+        self.loop_delay_slider.set(2.0)
+        self.loop_delay_unit.set("Sec")
+
+        # 3. Update slider labels
+        self.timing_lbl.configure(text="15%")
+        self.jitter_lbl.configure(text="3 px")
+        self.pause_lbl.configure(text="2%")
+        self.loop_delay_lbl.configure(text="2s")
+
+    def show_sliders_help(self):
+        # Create a new top-level window
+        help_win = ctk.CTkToplevel(self)
+        help_win.title("ℹ Randomness Controls Guide")
+        help_win.geometry("460x360")
+        help_win.resizable(False, False)
+        help_win.attributes('-topmost', True) # Keep on top of the main window
+
+        # Main header
+        header = ctk.CTkLabel(
+            help_win, 
+            text="Randomness Controls Guide", 
+            font=ctk.CTkFont(family="Inter", size=18, weight="bold"),
+            text_color="#3498db"
+        )
+        header.pack(pady=(15, 10))
+
+        # Text area container
+        text_frame = ctk.CTkFrame(help_win, fg_color="transparent")
+        text_frame.pack(fill="both", expand=True, padx=25, pady=10)
+
+        help_text = (
+            "🎯 Timing Variance\n"
+            "Adds a random percentage variation to the delay intervals between actions "
+            "(e.g., ±15%). This prevents perfect, robotic intervals.\n\n"
+            "📍 Position Jitter\n"
+            "Slightly offsets the clicked coordinates by a small random pixel amount "
+            "(e.g., ±3px) to prevent clicking the exact same pixel repeatedly.\n\n"
+            "☕ Micro-pause Chance\n"
+            "The percentage chance of introducing a random, organic pause (50ms - 250ms) "
+            "during replaying to simulate natural human hesitations.\n\n"
+            "🔄 Loop Delay\n"
+            "The customized delay pause between loop repetitions. Works in either "
+            "seconds or minutes scale (supporting 2s up to 10m)."
+        )
+
+        content = ctk.CTkLabel(
+            text_frame, 
+            text=help_text, 
+            justify="left", 
+            wraplength=410,
+            font=ctk.CTkFont(size=12)
+        )
+        content.pack(anchor="w")
+
+        # Close button
+        close_btn = ctk.CTkButton(
+            help_win, 
+            text="Close Guide", 
+            fg_color="#34495e", 
+            hover_color="#2c3e50",
+            command=help_win.destroy
+        )
+        close_btn.pack(pady=(10, 15))
 
     # --- UI Status / Update Manager ---
     def _update_ui_state(self):
