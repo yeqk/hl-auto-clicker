@@ -137,16 +137,20 @@ class AutoClickerApp(ctk.CTk):
         settings_frame = ctk.CTkFrame(self, corner_radius=12)
         settings_frame.pack(fill="x", padx=20, pady=10)
         
+        # Horizontal header container to isolate title, info button, and reset button from the grid column system
+        header_container = ctk.CTkFrame(settings_frame, fg_color="transparent")
+        header_container.grid(row=0, column=0, columnspan=3, sticky="ew")
+
         settings_title = ctk.CTkLabel(
-            settings_frame, 
+            header_container, 
             text="Human-like Randomness Controls", 
             font=ctk.CTkFont(size=14, weight="bold")
         )
-        settings_title.grid(row=0, column=0, padx=15, pady=(10, 5), sticky="w")
+        settings_title.pack(side="left", padx=(15, 5), pady=(10, 5))
 
         # Info/Help button
         self.info_btn = ctk.CTkButton(
-            settings_frame,
+            header_container,
             text="ℹ",
             width=24,
             height=24,
@@ -157,10 +161,10 @@ class AutoClickerApp(ctk.CTk):
             font=ctk.CTkFont(size=14, weight="bold"),
             command=self.show_sliders_help
         )
-        self.info_btn.grid(row=0, column=1, padx=0, pady=(10, 5), sticky="w")
+        self.info_btn.pack(side="left", padx=0, pady=(10, 5))
 
         self.reset_defaults_btn = ctk.CTkButton(
-            settings_frame, 
+            header_container, 
             text="Reset Defaults", 
             width=100, 
             height=22, 
@@ -170,7 +174,7 @@ class AutoClickerApp(ctk.CTk):
             font=ctk.CTkFont(size=11, weight="bold"),
             command=self.reset_settings_defaults
         )
-        self.reset_defaults_btn.grid(row=0, column=2, padx=15, pady=(10, 5), sticky="e")
+        self.reset_defaults_btn.pack(side="right", padx=15, pady=(10, 5))
 
         # 1. Timing variance slider
         ctk.CTkLabel(settings_frame, text="Timing Variance:", font=ctk.CTkFont(size=12)).grid(row=1, column=0, padx=15, pady=5, sticky="w")
@@ -231,9 +235,6 @@ class AutoClickerApp(ctk.CTk):
             number_of_steps=58,
             command=self._on_loop_delay_slider_changed
         )
-        self.loop_delay_slider.set(self.player.loop_delay)
-        self.loop_delay_slider.pack(side="left", fill="x", expand=True, padx=(0, 10))
-        
         self.loop_delay_unit = ctk.CTkSegmentedButton(
             delay_container,
             values=["Sec", "Min"],
@@ -242,6 +243,9 @@ class AutoClickerApp(ctk.CTk):
         )
         self.loop_delay_unit.set("Sec")
         self.loop_delay_unit.pack(side="right")
+
+        self.loop_delay_slider.set(self.player.loop_delay)
+        self.loop_delay_slider.pack(side="left", fill="x", expand=True, padx=(0, 10))
         
         self.loop_delay_lbl = ctk.CTkLabel(settings_frame, text="2s", width=50, anchor="e", font=ctk.CTkFont(weight="bold"))
         self.loop_delay_lbl.grid(row=4, column=2, padx=15, pady=5, sticky="e")
