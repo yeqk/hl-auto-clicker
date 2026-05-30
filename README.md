@@ -15,10 +15,9 @@ A modern desktop mouse auto-clicker designed to record sequences of mouse clicks
 - **Adjustable Loop Delay**: Set a custom delay between each complete iteration of the click sequence loop.
   - Supports a delay ranging from **2 seconds up to 10 minutes**.
   - Features a dedicated **Sec / Min** unit toggle switch for easy seconds/minutes scale scaling.
-- **Global Keyboard Hotkeys**: Start/Stop recording, trigger playback, or initiate an emergency abort instantly even while running games or focusing on other windows.
-- **Safe-Abort Fail-safes**: 
+- **Global Keyboard Hotkeys**: Start/Stop recording and trigger playback instantly even while running games or focusing on other windows.
+- **Safe-Abort Fail-safe**: 
   - PyAutoGUI's built-in fail-safe is enabled: throw your mouse cursor forcefully to the **absolute top-left corner of the screen** (0,0 coordinate) to instantly abort playback.
-  - Press the global **`F8`** hotkey at any time to halt all operations.
 - **Save & Load Sequences**: Export your recorded click sequences to `.json` files to reload and reuse them at any time.
 - **Modern Dark UI**: A sleek, premium dashboard powered by `customtkinter` with full slider customization, an always-on-top mode, and real-time click logging feeds.
 
@@ -30,7 +29,6 @@ A modern desktop mouse auto-clicker designed to record sequences of mouse clicks
 |---|---|---|
 | **`F6`** | **Start / Stop Recording** | Records clicks globally. Recording stops when `F6` is pressed again. |
 | **`F7`** | **Start / Stop Playback** | Replays your click sequence. Playback loops infinitely until stopped. |
-| **`F8`** | **Emergency Stop** | Instantly aborts both recording and playback globally. |
 
 *Note: Global shortcuts work in the background regardless of whether the HL Auto Clicker window is currently selected, focused, or minimized.*
 
@@ -65,7 +63,7 @@ A modern desktop mouse auto-clicker designed to record sequences of mouse clicks
    - *Micro-pause*: 2% is a solid sweet spot.
    - *Loop Delay*: Set your desired delay between repetitions (e.g. 5 seconds, or toggle to "Min" for minutes scale like 2.5 minutes).
 6. Press **F7** (or click **▶ Play Loop**) to run. Keep your hands off the mouse.
-7. To abort loop playback immediately, move your cursor manually to the **far top-left corner of the screen** (0,0 coordinate) or press **F8**.
+7. To abort loop playback immediately, move your cursor manually to the **far top-left corner of the screen** (0,0 coordinate).
 
 ---
 

@@ -34,8 +34,7 @@ class AutoClickerApp(ctk.CTk):
         )
         self.hotkeys = HotkeyManager(
             on_record_toggle=self.toggle_recording,
-            on_play_toggle=self.toggle_playback,
-            on_stop_all=self.stop_all
+            on_play_toggle=self.toggle_playback
         )
         
         # Initialize hotkeys
@@ -522,13 +521,7 @@ class AutoClickerApp(ctk.CTk):
             self.player.start(self.sequence.events)
             self._update_ui_state()
 
-    def stop_all(self):
-        # Global halt button
-        if self.recorder.is_recording:
-            self.recorder.stop()
-        if self.player.is_playing:
-            self.player.stop()
-        self._update_ui_state()
+
 
     def clear_sequence(self):
         self.recorder.clear()

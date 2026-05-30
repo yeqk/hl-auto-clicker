@@ -4,11 +4,9 @@ from pynput import keyboard
 class HotkeyManager:
     def __init__(self, 
                  on_record_toggle: Callable[[], None], 
-                 on_play_toggle: Callable[[], None], 
-                 on_stop_all: Callable[[], None]):
+                 on_play_toggle: Callable[[], None]):
         self.on_record_toggle = on_record_toggle
         self.on_play_toggle = on_play_toggle
-        self.on_stop_all = on_stop_all
         self.listener: Optional[keyboard.Listener] = None
 
     def start(self):
@@ -26,13 +24,11 @@ class HotkeyManager:
 
     def _on_press(self, key):
         try:
-            # We want to match key presses of F6, F7, F8
+            # We want to match key presses of F6, F7
             if key == keyboard.Key.f6:
                 self.on_record_toggle()
             elif key == keyboard.Key.f7:
                 self.on_play_toggle()
-            elif key == keyboard.Key.f8:
-                self.on_stop_all()
         except AttributeError:
             # Non-special key pressed (does not have .name or similar)
             pass
