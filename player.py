@@ -14,7 +14,7 @@ class Player:
         self.on_loop_complete = on_loop_complete
         self.on_stopped = on_stopped
         self.is_playing = False
-        self.loop_delay = 1.0  # Customizable delay between loops (in seconds)
+        self.loop_delay = 2.0  # Customizable delay between loops (in seconds)
         self.thread: Optional[threading.Thread] = None
         
         # PyAutoGUI safety configuration

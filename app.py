@@ -17,7 +17,7 @@ class AutoClickerApp(ctk.CTk):
         super().__init__()
 
         self.title("🎯 HL Auto Clicker")
-        self.geometry("640x800")
+        self.geometry("640x850")
         self.resizable(False, False)
 
         # Core logic variables
@@ -202,18 +202,33 @@ class AutoClickerApp(ctk.CTk):
         self.pause_lbl = ctk.CTkLabel(settings_frame, text="2%", width=50, anchor="e", font=ctk.CTkFont(weight="bold"))
         self.pause_lbl.grid(row=3, column=2, padx=15, pady=5, sticky="e")
 
-        # 4. Loop delay slider
+        # 4. Loop delay slider & unit toggle
         ctk.CTkLabel(settings_frame, text="Loop Delay:", font=ctk.CTkFont(size=12)).grid(row=4, column=0, padx=15, pady=5, sticky="w")
+        
+        # Sub-container to hold slider and segmented button side-by-side
+        delay_container = ctk.CTkFrame(settings_frame, fg_color="transparent")
+        delay_container.grid(row=4, column=1, padx=10, pady=5, sticky="ew")
+        
         self.loop_delay_slider = ctk.CTkSlider(
-            settings_frame, 
-            from_=0.0, 
-            to=10.0, 
-            number_of_steps=100,
+            delay_container, 
+            from_=2.0, 
+            to=60.0, 
+            number_of_steps=58,
             command=self._on_loop_delay_slider_changed
         )
         self.loop_delay_slider.set(self.player.loop_delay)
-        self.loop_delay_slider.grid(row=4, column=1, padx=10, pady=5, sticky="ew")
-        self.loop_delay_lbl = ctk.CTkLabel(settings_frame, text="1.0s", width=50, anchor="e", font=ctk.CTkFont(weight="bold"))
+        self.loop_delay_slider.pack(side="left", fill="x", expand=True, padx=(0, 10))
+        
+        self.loop_delay_unit = ctk.CTkSegmentedButton(
+            delay_container,
+            values=["Sec", "Min"],
+            width=70,
+            command=self._on_loop_unit_changed
+        )
+        self.loop_delay_unit.set("Sec")
+        self.loop_delay_unit.pack(side="right")
+        
+        self.loop_delay_lbl = ctk.CTkLabel(settings_frame, text="2s", width=50, anchor="e", font=ctk.CTkFont(weight="bold"))
         self.loop_delay_lbl.grid(row=4, column=2, padx=15, pady=5, sticky="e")
 
         settings_frame.grid_columnconfigure(1, weight=1)
@@ -268,8 +283,29 @@ class AutoClickerApp(ctk.CTk):
         self.pause_lbl.configure(text=f"{int(value * 100)}%")
 
     def _on_loop_delay_slider_changed(self, value):
-        self.player.loop_delay = float(value)
-        self.loop_delay_lbl.configure(text=f"{float(value):.1f}s")
+        unit = self.loop_delay_unit.get()
+        if unit == "Sec":
+            self.player.loop_delay = float(value)
+            self.loop_delay_lbl.configure(text=f"{int(value)}s")
+        else: # "Min"
+            self.player.loop_delay = float(value) * 60.0
+            self.loop_delay_lbl.configure(text=f"{float(value):.1f}m")
+
+    def _on_loop_unit_changed(self, unit):
+        if unit == "Sec":
+            self.loop_delay_slider.configure(from_=2.0, to=60.0, number_of_steps=58)
+            # Set to default: 2.0s
+            val = 2.0
+            self.loop_delay_slider.set(val)
+            self.player.loop_delay = val
+            self.loop_delay_lbl.configure(text="2s")
+        else: # "Min"
+            self.loop_delay_slider.configure(from_=1.0, to=10.0, number_of_steps=18) # 0.5m steps
+            # Set to default: 1.0m (60.0s)
+            val = 1.0
+            self.loop_delay_slider.set(val)
+            self.player.loop_delay = val * 60.0
+            self.loop_delay_lbl.configure(text="1.0m")
 
     # --- UI Status / Update Manager ---
     def _update_ui_state(self):
