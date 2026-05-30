@@ -29,7 +29,7 @@ jobs:
 
       - name: Compile Standalone Executable
         run: |
-          python -m PyInstaller --noconsole --onefile --collect-all customtkinter --name hl-auto-clicker main.py
+          python -m PyInstaller --noconsole --onefile --collect-all customtkinter --name hl-auto-clicker --icon=icon.ico main.py
 
       - name: Rename Executable for Release
         run: |
