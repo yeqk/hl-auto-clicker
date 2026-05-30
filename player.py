@@ -14,6 +14,7 @@ class Player:
         self.on_loop_complete = on_loop_complete
         self.on_stopped = on_stopped
         self.is_playing = False
+        self.loop_delay = 1.0  # Customizable delay between loops (in seconds)
         self.thread: Optional[threading.Thread] = None
         
         # PyAutoGUI safety configuration
@@ -48,9 +49,9 @@ class Player:
                     # We can use the recorded delay.
                     delay = event.delay
                     # If this is the start of the loop (not first loop) and it's the first click,
-                    # we should probably add a standard small delay so it doesn't instantly double click the last coordinate.
+                    # we use the customizable loop delay to space iterations.
                     if idx == 0 and loop_count > 0:
-                        delay = max(delay, 0.5)  # 0.5s pause between loops
+                        delay = max(delay, self.loop_delay)
 
                     jittered_delay = self.humanizer.jitter_delay(delay)
                     if jittered_delay > 0:

@@ -171,7 +171,7 @@ class AutoClickerApp(ctk.CTk):
         )
         self.timing_slider.set(self.humanizer.timing_variance)
         self.timing_slider.grid(row=1, column=1, padx=10, pady=5, sticky="ew")
-        self.timing_lbl = ctk.CTkLabel(settings_frame, text="15%", font=ctk.CTkFont(weight="bold"))
+        self.timing_lbl = ctk.CTkLabel(settings_frame, text="15%", width=50, anchor="e", font=ctk.CTkFont(weight="bold"))
         self.timing_lbl.grid(row=1, column=2, padx=15, pady=5, sticky="e")
 
         # 2. Position jitter slider
@@ -185,7 +185,7 @@ class AutoClickerApp(ctk.CTk):
         )
         self.jitter_slider.set(self.humanizer.position_jitter)
         self.jitter_slider.grid(row=2, column=1, padx=10, pady=5, sticky="ew")
-        self.jitter_lbl = ctk.CTkLabel(settings_frame, text="3 px", font=ctk.CTkFont(weight="bold"))
+        self.jitter_lbl = ctk.CTkLabel(settings_frame, text="3 px", width=50, anchor="e", font=ctk.CTkFont(weight="bold"))
         self.jitter_lbl.grid(row=2, column=2, padx=15, pady=5, sticky="e")
 
         # 3. Micro-pause chance slider
@@ -199,8 +199,22 @@ class AutoClickerApp(ctk.CTk):
         )
         self.pause_slider.set(self.humanizer.pause_chance)
         self.pause_slider.grid(row=3, column=1, padx=10, pady=5, sticky="ew")
-        self.pause_lbl = ctk.CTkLabel(settings_frame, text="2%", font=ctk.CTkFont(weight="bold"))
+        self.pause_lbl = ctk.CTkLabel(settings_frame, text="2%", width=50, anchor="e", font=ctk.CTkFont(weight="bold"))
         self.pause_lbl.grid(row=3, column=2, padx=15, pady=5, sticky="e")
+
+        # 4. Loop delay slider
+        ctk.CTkLabel(settings_frame, text="Loop Delay:", font=ctk.CTkFont(size=12)).grid(row=4, column=0, padx=15, pady=5, sticky="w")
+        self.loop_delay_slider = ctk.CTkSlider(
+            settings_frame, 
+            from_=0.0, 
+            to=10.0, 
+            number_of_steps=100,
+            command=self._on_loop_delay_slider_changed
+        )
+        self.loop_delay_slider.set(self.player.loop_delay)
+        self.loop_delay_slider.grid(row=4, column=1, padx=10, pady=5, sticky="ew")
+        self.loop_delay_lbl = ctk.CTkLabel(settings_frame, text="1.0s", width=50, anchor="e", font=ctk.CTkFont(weight="bold"))
+        self.loop_delay_lbl.grid(row=4, column=2, padx=15, pady=5, sticky="e")
 
         settings_frame.grid_columnconfigure(1, weight=1)
 
@@ -252,6 +266,10 @@ class AutoClickerApp(ctk.CTk):
     def _on_pause_slider_changed(self, value):
         self.humanizer.pause_chance = float(value)
         self.pause_lbl.configure(text=f"{int(value * 100)}%")
+
+    def _on_loop_delay_slider_changed(self, value):
+        self.player.loop_delay = float(value)
+        self.loop_delay_lbl.configure(text=f"{float(value):.1f}s")
 
     # --- UI Status / Update Manager ---
     def _update_ui_state(self):
