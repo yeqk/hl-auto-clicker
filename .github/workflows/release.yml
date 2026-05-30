@@ -29,11 +29,11 @@ jobs:
 
       - name: Compile Standalone Executable
         run: |
-          python -m PyInstaller --noconsole --onefile --collect-all customtkinter main.py
+          python -m PyInstaller --noconsole --onefile --collect-all customtkinter --name hl-auto-clicker main.py
 
       - name: Rename Executable for Release
         run: |
-          mv dist/main.exe dist/HL-Auto-Clicker-Windows.exe
+          mv dist/hl-auto-clicker.exe dist/HL-Auto-Clicker-Windows.exe
 
       - name: Create Release and Upload Asset
         uses: softprops/action-gh-release@v2
